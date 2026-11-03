@@ -115,13 +115,6 @@ export default function Header() {
               <Package className="w-3.5 h-3.5" />
               <span>Track Order</span>
             </Link>
-
-            <Link
-              to="/admin/login"
-              className="text-[11px] bg-white/20 hover:bg-white/30 text-white px-2 py-0.5 rounded transition"
-            >
-              Admin Portal
-            </Link>
           </div>
         </div>
       </div>
@@ -421,13 +414,6 @@ export default function Header() {
                   >
                     <Package className="w-4 h-4 mr-2 text-primary" />
                     <span>Track Order</span>
-                  </Link>
-                  <Link
-                    to="/admin/login"
-                    className="flex items-center px-3 py-2 text-sm text-primary font-semibold"
-                    onClick={() => setIsMobileMenuOpen(false)}
-                  >
-                    <span>Admin Portal Login →</span>
                   </Link>
                 </div>
               </div>

@@ -218,11 +218,9 @@ export default function Footer() {
         <div className="pt-8 mt-4 border-t border-gray-800 flex flex-col sm:flex-row items-center justify-between text-xs text-gray-500 gap-4">
           <p>© {new Date().getFullYear()} Shaasya Swornam Pvt. Ltd. All Rights Reserved.</p>
           <div className="flex items-center space-x-4">
-            <Link to="/admin/login" className="hover:text-gray-400">Admin Login</Link>
+            <Link to="/privacy-policy" className="hover:text-gray-400">Privacy Policy</Link>
             <span>•</span>
-            <Link to="/privacy-policy" className="hover:text-gray-400">Privacy</Link>
-            <span>•</span>
-            <Link to="/terms-conditions" className="hover:text-gray-400">Terms</Link>
+            <Link to="/terms-conditions" className="hover:text-gray-400">Terms & Conditions</Link>
           </div>
         </div>
       </div>

@@ -3,21 +3,13 @@ import { Link } from 'react-router-dom';
 import {
   ChevronLeft,
   ChevronRight,
-  ArrowRight,
-  ShieldCheck,
-  CheckCircle2,
-  Sparkles,
-  Leaf,
-  Sprout,
-  HeartHandshake
+  ArrowRight
 } from 'lucide-react';
 import ProductCard from '../../components/products/ProductCard';
 import { productService } from '../../services/productService';
-import { CATEGORIES } from '../../data/categories';
 
 export default function HomePage() {
   const [freshArrivals, setFreshArrivals] = useState([]);
-  const [featuredProducts, setFeaturedProducts] = useState([]);
   const [loading, setLoading] = useState(true);
   const [activeSlide, setActiveSlide] = useState(0);
 
@@ -25,8 +17,8 @@ export default function HomePage() {
     {
       image: '/img/slider1.jpg',
       title: 'Experience the Pure Taste of Nature',
-      cta: 'Contact Us',
-      ctaLink: '/contact'
+      cta: 'Shop Now',
+      ctaLink: '/products'
     },
     {
       image: '/img/slider2.png',
@@ -45,10 +37,9 @@ export default function HomePage() {
   }, []);
 
   useEffect(() => {
-    Promise.all([productService.getFreshArrivals(), productService.getFeaturedProducts()])
-      .then(([freshRes, featRes]) => {
-        setFreshArrivals(freshRes.data || []);
-        setFeaturedProducts(featRes.data || []);
+    productService.getFreshArrivals()
+      .then((res) => {
+        setFreshArrivals(res.data || []);
       })
       .catch((err) => console.error('Error fetching home products', err))
       .finally(() => setLoading(false));
@@ -71,7 +62,7 @@ export default function HomePage() {
 
   return (
     <div className="pb-16">
-      {/* 1. Hero Carousel - Directly Attached to Header with 0 gap and Original Animations */}
+      {/* 1. Hero Carousel - First slide CTA 'Shop Now' -> /products */}
       <section className="relative w-full p-0 m-0 overflow-hidden bg-black select-none">
         <div id="header-carousel" className="relative w-full min-h-[500px] sm:min-h-[580px] lg:min-h-[650px] flex items-center">
           {/* Animated Background Image with original .carousel-plant zoom */}
@@ -86,7 +77,7 @@ export default function HomePage() {
             <div className="absolute inset-0 bg-black/40" />
           </div>
 
-          {/* Carousel Caption matching original HTML layout */}
+          {/* Carousel Caption */}
           <div className="relative z-20 max-w-7xl mx-auto w-full px-4 sm:px-6 lg:px-8 py-20 flex items-center">
             <div className="max-w-2xl text-left">
               <h1
@@ -106,17 +97,17 @@ export default function HomePage() {
             </div>
           </div>
 
-          {/* Previous / Next Controls matching original green circle icons */}
+          {/* Previous / Next Controls */}
           <button
             onClick={() => setActiveSlide((prev) => (prev === 0 ? 1 : 0))}
-            className="absolute left-4 sm:left-8 top-1/2 -translate-y-1/2 z-30 w-12 h-12 rounded-full bg-primary hover:bg-primary-hover text-white flex items-center justify-center shadow-lg transition-transform hover:scale-110 focus:outline-none"
+            className="absolute left-4 sm:left-8 top-1/2 -translate-y-1/2 z-30 w-12 h-12 rounded-full bg-primary hover:bg-primary-hover text-white flex items-center justify-center shadow-lg transition-transform hover:scale-110 focus:outline-none cursor-pointer"
             aria-label="Previous slide"
           >
             <ChevronLeft className="w-6 h-6" />
           </button>
           <button
             onClick={() => setActiveSlide((prev) => (prev === 1 ? 0 : 1))}
-            className="absolute right-4 sm:right-8 top-1/2 -translate-y-1/2 z-30 w-12 h-12 rounded-full bg-primary hover:bg-primary-hover text-white flex items-center justify-center shadow-lg transition-transform hover:scale-110 focus:outline-none"
+            className="absolute right-4 sm:right-8 top-1/2 -translate-y-1/2 z-30 w-12 h-12 rounded-full bg-primary hover:bg-primary-hover text-white flex items-center justify-center shadow-lg transition-transform hover:scale-110 focus:outline-none cursor-pointer"
             aria-label="Next slide"
           >
             <ChevronRight className="w-6 h-6" />
@@ -124,7 +115,7 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* 2. Quick Features Section matching original quick-section */}
+      {/* 2. Quick Features Bar */}
       <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
         <div className="grid grid-cols-2 lg:grid-cols-4 gap-6">
           <div className="bg-white p-6 rounded-2xl border border-gray-100 shadow-sm hover:shadow-md transition text-center flex flex-col items-center">
@@ -154,86 +145,7 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* 3. About Section matching original about.html snippet */}
-      <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
-          <div className="overflow-hidden rounded-2xl shadow-lg">
-            <img
-              src="/img/about.jpg"
-              alt="Shaasya Swornam Farm"
-              className="w-full h-80 sm:h-96 object-cover hover:scale-105 transition-transform duration-500"
-            />
-          </div>
-          <div className="space-y-4">
-            <h2 className="text-3xl sm:text-4xl font-serif font-bold text-gray-900 leading-tight">
-              About Us
-            </h2>
-            <p className="text-sm text-gray-600 leading-relaxed">
-              Welcome to <b>Shaasya Swornam Pvt. Ltd.</b>, where nature meets purity. We are a dedicated team of passionate individuals committed to delivering the finest organic products that nourish both your body and the planet.
-            </p>
-            <p className="text-sm text-gray-600 leading-relaxed">
-              Founded on the principles of sustainability, health, and quality, <b>Shaasya Swornam Pvt. Ltd.</b> is more than just a brand – it’s a movement toward a healthier and greener future. We believe that embracing organic living is not just a choice; it’s a responsibility we owe to ourselves and the generations to come.
-            </p>
-            <p className="text-sm text-gray-600 leading-relaxed">
-              At Shaasya Swornam, our journey begins with the soil. Every product we offer is cultivated with care, free from harmful chemicals and pesticides, ensuring that you receive the purest essence of nature in every bite, sip, or touch.
-            </p>
-            <div className="pt-2">
-              <Link
-                to="/about"
-                className="inline-block px-8 py-3.5 bg-primary hover:bg-primary-hover text-white rounded-full text-xs font-bold shadow-md transition"
-              >
-                Read More
-              </Link>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* 4. Our Features Section matching original icon1..4 */}
-      <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
-        <div className="text-center max-w-xl mx-auto mb-10">
-          <h2 className="text-3xl font-serif font-bold text-gray-900">Our Features</h2>
-          <p className="text-xs text-gray-500 mt-2">
-            At <b>Shaasya Swornam Pvt. Ltd.</b>, we pride ourselves on offering an unparalleled organic experience, powered by innovation, sustainability, and a customer-first approach.
-          </p>
-        </div>
-
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-          <div className="bg-white p-6 rounded-2xl border border-gray-100 shadow-sm text-center flex flex-col items-center">
-            <img src="/img/icon1.png" alt="Wide Variety of Plants" className="h-16 w-auto mb-4" />
-            <h4 className="font-serif font-bold text-base text-gray-900 mb-2">Wide Variety of Plants</h4>
-            <p className="text-xs text-gray-500 leading-relaxed">
-              From vibrant ornamentals to nutrient-rich edibles, our collection brings the best of nature to your doorstep.
-            </p>
-          </div>
-
-          <div className="bg-white p-6 rounded-2xl border border-gray-100 shadow-sm text-center flex flex-col items-center">
-            <img src="/img/icon2.png" alt="Easy Online Shopping" className="h-16 w-auto mb-4" />
-            <h4 className="font-serif font-bold text-base text-gray-900 mb-2">Easy Online Shopping</h4>
-            <p className="text-xs text-gray-500 leading-relaxed">
-              Seamless guest ordering with doorstep Cash on Delivery, bringing healthy living straight to your door.
-            </p>
-          </div>
-
-          <div className="bg-white p-6 rounded-2xl border border-gray-100 shadow-sm text-center flex flex-col items-center">
-            <img src="/img/icon3.png" alt="Expert Gardening Advice" className="h-16 w-auto mb-4" />
-            <h4 className="font-serif font-bold text-base text-gray-900 mb-2">Expert Gardening Advice</h4>
-            <p className="text-xs text-gray-500 leading-relaxed">
-              Tailored professional advice and agronomy support to guide you at every step of your growing journey.
-            </p>
-          </div>
-
-          <div className="bg-white p-6 rounded-2xl border border-gray-100 shadow-sm text-center flex flex-col items-center">
-            <img src="/img/icon4.png" alt="Eco-friendly Products" className="h-16 w-auto mb-4" />
-            <h4 className="font-serif font-bold text-base text-gray-900 mb-2">Eco-friendly Products</h4>
-            <p className="text-xs text-gray-500 leading-relaxed">
-              Sustainable biological inputs and recyclable packaging designed to minimize environmental impact.
-            </p>
-          </div>
-        </div>
-      </section>
-
-      {/* 5. Produce Marquee Ticker matching original template */}
+      {/* 3. Produce Marquee Ticker */}
       <section className="bg-emerald-950 text-white py-8 overflow-hidden">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mb-4">
           <div className="flex flex-col sm:flex-row items-center justify-between gap-2">
@@ -273,7 +185,7 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* 6. Fresh Arrivals Section */}
+      {/* 4. Fresh Arrivals Section */}
       <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
         <div className="flex flex-col sm:flex-row sm:items-end justify-between mb-8 gap-4">
           <div>
@@ -308,7 +220,7 @@ export default function HomePage() {
         )}
       </section>
 
-      {/* 7. Why Shop With Us? matching original plant4.png */}
+      {/* 5. Why Shop With Us? Section */}
       <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         <div className="bg-white rounded-3xl border border-gray-100 shadow-sm p-8 sm:p-12 grid grid-cols-1 lg:grid-cols-2 gap-10 items-center">
           <div className="flex justify-center">
@@ -357,7 +269,86 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* 8. Firm Visit Section matching original contact banner */}
+      {/* 6. Our Features Section (Appears after Why Shop With Us) */}
+      <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+        <div className="text-center max-w-xl mx-auto mb-10">
+          <h2 className="text-3xl font-serif font-bold text-gray-900">Our Features</h2>
+          <p className="text-xs text-gray-500 mt-2">
+            At <b>Shaasya Swornam Pvt. Ltd.</b>, we pride ourselves on offering an unparalleled organic experience, powered by innovation, sustainability, and a customer-first approach.
+          </p>
+        </div>
+
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+          <div className="bg-white p-6 rounded-2xl border border-gray-100 shadow-sm text-center flex flex-col items-center">
+            <img src="/img/icon1.png" alt="Wide Variety of Plants" className="h-16 w-auto mb-4" />
+            <h4 className="font-serif font-bold text-base text-gray-900 mb-2">Wide Variety of Plants</h4>
+            <p className="text-xs text-gray-500 leading-relaxed">
+              From vibrant ornamentals to nutrient-rich edibles, our collection brings the best of nature to your doorstep.
+            </p>
+          </div>
+
+          <div className="bg-white p-6 rounded-2xl border border-gray-100 shadow-sm text-center flex flex-col items-center">
+            <img src="/img/icon2.png" alt="Easy Online Shopping" className="h-16 w-auto mb-4" />
+            <h4 className="font-serif font-bold text-base text-gray-900 mb-2">Easy Online Shopping</h4>
+            <p className="text-xs text-gray-500 leading-relaxed">
+              Seamless guest ordering with doorstep Cash on Delivery, bringing healthy living straight to your door.
+            </p>
+          </div>
+
+          <div className="bg-white p-6 rounded-2xl border border-gray-100 shadow-sm text-center flex flex-col items-center">
+            <img src="/img/icon3.png" alt="Expert Gardening Advice" className="h-16 w-auto mb-4" />
+            <h4 className="font-serif font-bold text-base text-gray-900 mb-2">Expert Gardening Advice</h4>
+            <p className="text-xs text-gray-500 leading-relaxed">
+              Tailored professional advice and agronomy support to guide you at every step of your growing journey.
+            </p>
+          </div>
+
+          <div className="bg-white p-6 rounded-2xl border border-gray-100 shadow-sm text-center flex flex-col items-center">
+            <img src="/img/icon4.png" alt="Eco-friendly Products" className="h-16 w-auto mb-4" />
+            <h4 className="font-serif font-bold text-base text-gray-900 mb-2">Eco-friendly Products</h4>
+            <p className="text-xs text-gray-500 leading-relaxed">
+              Sustainable biological inputs and recyclable packaging designed to minimize environmental impact.
+            </p>
+          </div>
+        </div>
+      </section>
+
+      {/* 7. About Us Section (Appears after Our Features) */}
+      <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+          <div className="overflow-hidden rounded-2xl shadow-lg">
+            <img
+              src="/img/about.jpg"
+              alt="Shaasya Swornam Farm"
+              className="w-full h-80 sm:h-96 object-cover hover:scale-105 transition-transform duration-500"
+            />
+          </div>
+          <div className="space-y-4">
+            <h2 className="text-3xl sm:text-4xl font-serif font-bold text-gray-900 leading-tight">
+              About Us
+            </h2>
+            <p className="text-sm text-gray-600 leading-relaxed">
+              Welcome to <b>Shaasya Swornam Pvt. Ltd.</b>, where nature meets purity. We are a dedicated team of passionate individuals committed to delivering the finest organic products that nourish both your body and the planet.
+            </p>
+            <p className="text-sm text-gray-600 leading-relaxed">
+              Founded on the principles of sustainability, health, and quality, <b>Shaasya Swornam Pvt. Ltd.</b> is more than just a brand – it’s a movement toward a healthier and greener future. We believe that embracing organic living is not just a choice; it’s a responsibility we owe to ourselves and the generations to come.
+            </p>
+            <p className="text-sm text-gray-600 leading-relaxed">
+              At Shaasya Swornam, our journey begins with the soil. Every product we offer is cultivated with care, free from harmful chemicals and pesticides, ensuring that you receive the purest essence of nature in every bite, sip, or touch.
+            </p>
+            <div className="pt-2">
+              <Link
+                to="/about"
+                className="inline-block px-8 py-3.5 bg-primary hover:bg-primary-hover text-white rounded-full text-xs font-bold shadow-md transition"
+              >
+                Read More
+              </Link>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* 8. Firm Visit Section */}
       <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         <div className="bg-emerald-900 text-white rounded-3xl p-8 sm:p-12 flex flex-col md:flex-row items-center justify-between gap-6 shadow-xl">
           <div className="max-w-xl space-y-2 text-center md:text-left">

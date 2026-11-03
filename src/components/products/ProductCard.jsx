@@ -137,14 +137,14 @@ export default function ProductCard({ product }) {
             </div>
           )}
 
-          {/* Pricing & Add to Cart button */}
-          <div className="flex items-center justify-between gap-2">
-            <div>
-              <span className="text-base font-bold text-gray-900">
+          {/* Pricing & Add to Cart button - Stacked on mobile so button is below price and 100% responsive */}
+          <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2.5 pt-1">
+            <div className="flex items-baseline flex-wrap gap-1">
+              <span className="text-sm sm:text-base font-bold text-gray-900">
                 {formatPrice(product.price)}
               </span>
               {product.mrp && product.mrp > product.price && (
-                <span className="text-xs text-gray-400 line-through ml-1.5">
+                <span className="text-[11px] sm:text-xs text-gray-400 line-through">
                   {formatPrice(product.mrp)}
                 </span>
               )}
@@ -153,7 +153,7 @@ export default function ProductCard({ product }) {
             <button
               onClick={handleAddToCart}
               disabled={!product.inStock}
-              className={`py-2 px-3.5 rounded-lg text-xs font-bold transition flex items-center space-x-1.5 shadow-sm active:scale-95 ${
+              className={`w-full sm:w-auto py-2 sm:py-1.5 px-3 rounded-lg text-xs font-bold transition flex items-center justify-center space-x-1.5 shadow-xs active:scale-95 cursor-pointer flex-shrink-0 ${
                 added
                   ? 'bg-emerald-600 text-white'
                   : product.inStock
@@ -170,7 +170,7 @@ export default function ProductCard({ product }) {
               ) : (
                 <>
                   <ShoppingCart className="w-3.5 h-3.5" />
-                  <span>Add</span>
+                  <span>Add to Cart</span>
                 </>
               )}
             </button>
